@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Uma pequena aventura interativa para fazer um convite especial." />
+  <title>Um Convite Especial</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="stage-opening">
+  <button class="sound-toggle is-hidden" id="sound-toggle" type="button" aria-label="Ativar ou desativar trilha sonora">
+    ♪
+  </button>
+
+  <button class="easter-egg" id="easter-egg" type="button" aria-label="Mensagem escondida"></button>
+
+  <div class="secret-message" id="secret-message" aria-live="polite">
+    <p>Se você encontrou isso, ganhou pontos extras de curiosidade.</p>
+    <p>Agora eu tenho ainda mais certeza que essa missão foi feita para você.</p>
+  </div>
+
+  <div class="transition-note" id="transition-note" aria-live="polite"></div>
+  <div class="time-cabin" id="time-cabin" aria-hidden="true"></div>
+
+  <main class="app" id="app">
+    <section class="screen" data-screen="opening">
+      <div class="screen__content opening-screen">
+        <p class="screen__eyebrow">Uma pequena aventura</p>
+        <div class="typewriter" id="opening-typewriter" aria-live="polite"></div>
+        <button class="button start-button is-locked" type="button" data-next-screen="loading" disabled>
+          Começar
+        </button>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="loading">
+      <div class="screen__content loading-screen">
+        <p class="screen__eyebrow">Preparando</p>
+        <h2>Um instante...</h2>
+        <p>Estou organizando tudo com cuidado antes da próxima etapa.</p>
+
+        <div class="premium-loader" aria-live="polite">
+          <div class="premium-loader__orb"></div>
+          <div class="premium-loader__track">
+            <span id="loading-progress"></span>
+          </div>
+          <div class="premium-loader__footer">
+            <span id="loading-phrase">Inicializando...</span>
+            <strong id="loading-percent">0%</strong>
+          </div>
+        </div>
+
+        <div class="screen__actions">
+          <button class="button secondary" type="button" data-previous-screen="opening">Voltar</button>
+          <button class="button loading-continue is-locked" type="button" data-next-screen="soundtrack" disabled>
+            Continuar
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="soundtrack">
+      <div class="screen__content soundtrack-screen">
+        <p class="screen__eyebrow">Trilha da missão</p>
+        <h2>Quer escolher uma trilha para essa missão?</h2>
+        <p>A música não começa sozinha. Você escolhe se quer deixar tudo em silêncio ou com uma MPB suave ao fundo.</p>
+
+        <div class="soundtrack-options">
+          <button class="soundtrack-card selected" type="button" data-soundtrack="none">
+            <span>Sem música</span>
+            <small>Deixar a missão falar por si.</small>
+          </button>
+
+          <button class="soundtrack-card" type="button" data-soundtrack="mpb">
+            <span>MPB suave</span>
+            <small>Use o arquivo local em assets/sounds/mpb-suave.m4a.</small>
+          </button>
+        </div>
+
+        <div class="confirmation-pill is-visible" id="soundtrack-feedback">
+          Trilha escolhida: sem música.
+        </div>
+
+        <div class="screen__actions">
+          <button class="button secondary" type="button" data-previous-screen="loading">Voltar</button>
+          <button class="button" type="button" data-next-screen="questions">Continuar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="questions">
+      <div class="screen__content questions-screen">
+        <p class="screen__eyebrow">Etapa 1</p>
+        <h2>Antes de continuar...</h2>
+        <p>Responda três perguntinhas rápidas. Não existe resposta errada.</p>
+
+        <div class="question-cards">
+          <article class="question-card" data-question="cafe">
+            <h3>Você gosta de café?</h3>
+            <div class="question-card__answers">
+              <button type="button" data-question-answer="Sim">Sim</button>
+              <button type="button" data-question-answer="Não">Não</button>
+            </div>
+          </article>
+
+          <article class="question-card" data-question="flores">
+            <h3>Você gosta de flores?</h3>
+            <div class="question-card__answers">
+              <button type="button" data-question-answer="Sim">Sim</button>
+              <button type="button" data-question-answer="Não">Não</button>
+            </div>
+          </article>
+
+          <article class="question-card" data-question="surpresas">
+            <h3>Você gosta de surpresas?</h3>
+            <div class="question-card__answers">
+              <button type="button" data-question-answer="Sim">Sim</button>
+              <button type="button" data-question-answer="Não">Não</button>
+            </div>
+          </article>
+        </div>
+
+        <div class="confirmation-pill" id="identity-confirmation">Identidade confirmada.</div>
+
+        <div class="screen__actions">
+          <button class="button secondary" type="button" data-previous-screen="soundtrack">Voltar</button>
+          <button class="button questions-continue is-locked" type="button" data-next-screen="flower" disabled>
+            Próxima etapa
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="flower">
+      <div class="screen__content flower-screen">
+        <p class="screen__eyebrow">Etapa 2</p>
+        <h2>Escolha uma flor</h2>
+        <p>Escolha com calma. Essa parte é pequena, mas diz bastante.</p>
+
+        <div class="cards flower-cards">
+          <button class="card flower-card" type="button" data-choice="Rosa">
+            <span class="flower-card__emoji">🌹</span>
+            <span class="flower-card__name">Rosa</span>
+            <small>Clássica, intensa e impossível de ignorar.</small>
+          </button>
+
+          <button class="card flower-card" type="button" data-choice="Tulipa">
+            <span class="flower-card__emoji">🌷</span>
+            <span class="flower-card__name">Tulipa</span>
+            <small>Elegante, leve e cheia de charme.</small>
+          </button>
+
+          <button class="card flower-card" type="button" data-choice="Lírio">
+            <span class="flower-card__emoji">🌸</span>
+            <span class="flower-card__name">Lírio</span>
+            <small>Delicado, raro e com um toque especial.</small>
+          </button>
+        </div>
+
+        <div class="flower-feedback-stack">
+          <div class="confirmation-pill" id="flower-feedback">Excelente escolha.</div>
+          <div class="confirmation-pill flower-thought" id="flower-thought">Eu também tinha essa flor em mente.</div>
+        </div>
+
+        <div class="lily-special" id="lily-special" aria-hidden="true">
+          <span>🌸</span><span>✨</span><span>🌸</span>
+        </div>
+
+        <div class="screen__actions">
+          <button class="button secondary" type="button" data-previous-screen="questions">Voltar</button>
+          <button class="button flower-continue is-locked" type="button" data-next-screen="compatibility" disabled>
+            Continuar
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="compatibility">
+      <div class="screen__content scanner-screen">
+        <p class="screen__eyebrow">Etapa 3</p>
+        <h2>Scanner de compatibilidade</h2>
+        <p>Análise altamente científica, emocionalmente suspeita e levemente tendenciosa.</p>
+
+        <div class="scanner-panel">
+          <div class="scanner-grid"></div>
+          <div class="scanner-line"></div>
+
+          <div class="scanner-particles" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+
+          <div class="scanner-bars">
+            <div class="scan-item" data-scan-value="92">
+              <div class="scan-item__top"><span>Bom humor</span><strong>0%</strong></div>
+              <div class="scan-item__track"><span></span></div>
+            </div>
+
+            <div class="scan-item" data-scan-value="96">
+              <div class="scan-item__top"><span>Sorriso</span><strong>0%</strong></div>
+              <div class="scan-item__track"><span></span></div>
+            </div>
+
+            <div class="scan-item" data-scan-value="94">
+              <div class="scan-item__top"><span>Inteligência</span><strong>0%</strong></div>
+              <div class="scan-item__track"><span></span></div>
+            </div>
+
+            <div class="scan-item" data-scan-value="98">
+              <div class="scan-item__top"><span>Carisma</span><strong>0%</strong></div>
+              <div class="scan-item__track"><span></span></div>
+            </div>
+
+            <div class="scan-item" data-scan-value="99">
+              <div class="scan-item__top"><span>Gentileza</span><strong>0%</strong></div>
+              <div class="scan-item__track"><span></span></div>
+            </div>
+          </div>
+
+          <div class="compatibility-result">
+            <span id="compatibility-number">0%</span>
+            <p id="compatibility-message">Analisando sinais promissores...</p>
+          </div>
+        </div>
+
+        <div class="screen__actions">
+          <button class="button secondary" type="button" data-previous-screen="flower">Voltar</button>
+          <button class="button compatibility-continue is-locked" type="button" data-next-screen="minigame" disabled>
+            Continuar
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="minigame">
+      <div class="screen__content minigame-screen">
+        <p class="screen__eyebrow">Etapa 4</p>
+        <h2>Capture os corações</h2>
+        <p>Clique em 15 corações para liberar o convite final.</p>
+
+        <div class="heart-counter">
+          <span id="heart-counter-current">0</span>
+          <span>/</span>
+          <span id="heart-counter-total">15</span>
+        </div>
+
+        <div class="heart-game" id="heart-game" aria-label="Mini game de capturar corações">
+          <div class="heart-success" id="heart-success">
+            <strong>Sucesso!</strong>
+            <span>Corações suficientes coletados.</span>
+          </div>
+        </div>
+
+        <div class="screen__actions">
+          <button class="button secondary" type="button" data-previous-screen="compatibility">Voltar</button>
+          <button class="button minigame-continue is-locked" type="button" data-next-screen="invitation" disabled>
+            Ir para o convite
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="invitation">
+      <div class="screen__content invitation-screen">
+        <p class="screen__eyebrow">Convite final</p>
+
+        <div class="invitation-typewriter" id="invitation-typewriter" aria-live="polite"></div>
+
+        <div class="invitation-question" id="invitation-question">
+          <h2>Aceita sair comigo sábado?</h2>
+
+          <div class="screen__actions invitation-actions">
+            <button class="button" type="button" data-answer="Sim">❤️ Sim</button>
+            <button class="button secondary" type="button" data-answer="Não">🙈 Não</button>
+          </div>
+        </div>
+
+        <div class="screen__actions screen__actions--secondary">
+          <button class="button secondary" type="button" data-previous-screen="minigame">Voltar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="final">
+      <div class="screen__content final-screen">
+        <div class="stars" aria-hidden="true"></div>
+
+        <div class="floating-hearts" aria-hidden="true">
+          <span>❤️</span><span>💕</span><span>❤️</span><span>💗</span><span>💕</span>
+        </div>
+
+        <div class="lantern-field" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <p class="screen__eyebrow">Missão concluída</p>
+
+        <div class="final-card">
+          <h2>Missão concluída.</h2>
+
+          <div class="date-time-grid">
+            <div>
+              <span>Data</span>
+              <strong>04/07</strong>
+            </div>
+
+            <div>
+              <span>Horário</span>
+              <strong>15:00</strong>
+            </div>
+          </div>
+
+          <div class="rewards">
+            <h3>Recompensas desbloqueadas</h3>
+            <ul>
+              <li><span>🌸</span> Um lírio rosa</li>
+              <li><span>☕</span> Um café</li>
+              <li><span>🎶</span> Boas conversas</li>
+              <li><span>😊</span> Muitas risadas</li>
+            </ul>
+          </div>
+
+          <div class="final-message-card">
+            <p id="final-message">Obrigado por aceitar.</p>
+            <p>Prometo fazer esse encontro ser especial.</p>
+            <strong>Algumas histórias começam por acaso. Outras começam com um simples "sim". Espero que a nossa seja uma delas.</strong>
+          </div>
+        </div>
+
+        <p class="lantern-caption">Algumas luzes aparecem no céu só para marcar um começo especial.</p>
+
+        <ul class="final-summary" id="summary-list"></ul>
+
+        <div class="screen__actions">
+          <button class="button" type="button" data-next-screen="opening">Recomeçar</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+<!-- Cena cinematográfica após o "Sim" -->
+<div class="cinematic-scene" id="cinematicScene" aria-hidden="true">
+  <canvas class="lantern-canvas lantern-canvas--back" id="lanternCanvasBack"></canvas>
+
+  <div class="cinematic-text" id="cinematicText">
+    <p id="cinematicLine"></p>
+  </div>
+
+  <canvas class="lantern-canvas lantern-canvas--front" id="lanternCanvasFront"></canvas>
+</div>
+<audio id="missionMusic" src="assets/sounds/mpb-suave.m4a" preload="auto" loop></audio>
+</body>
+</html>
